@@ -9,7 +9,7 @@ scanf("%d",&a);
 while(a>0){
 a--;
 
-	printf("*\n");
+	printf("*");
 }
 
 return 0;
