@@ -7,7 +7,7 @@ int main(void) {
     int i;
     char s[3][128];
     for (i = 0; i < 3; i++) {
-        printf("s[%d]:\n", i );
+        printf("s[%d]:", i );
         scanf("%s", s[i]);
 
     }

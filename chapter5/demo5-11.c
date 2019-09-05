@@ -18,4 +18,3 @@ int main(void) {
     printf("最高分：%d,最低分：%d\n",max,min );
     return 0;
 }
-
