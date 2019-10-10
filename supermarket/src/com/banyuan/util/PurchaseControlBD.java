@@ -1,4 +1,4 @@
-package com.banyuan.db;
+package com.banyuan.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -102,7 +102,7 @@ public void insertDBData(String Num,String operator,String  count,String goodsSu
 
 			// 3、构造sql语句
 //			String sql = "insert into addstorage（commodityname,commodityid,unit,price,count,Warehousingtime,expirationtime,operator) values(?,?,?,?,?,?)";
-			String sql = "insert into addstorage values(?,?,?,?,?,?,?,?)";
+			String sql = "insert into addstorage values(?,?,?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setObject(1, "");
 		    ps.setObject(2,Num);

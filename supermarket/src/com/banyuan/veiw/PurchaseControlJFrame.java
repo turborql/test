@@ -1,6 +1,5 @@
 package com.banyuan.veiw;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -15,10 +14,13 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.banyuan.db.PurchaseControlBD;
+import com.banyuan.entity.Commodity;
 import com.banyuan.service.MyThread;
+import com.banyuan.service.impl.PurcharseControlServiceimpl;
 
 public class PurchaseControlJFrame extends JFrame implements ActionListener {
+
+
 
 	private JPanel contentPane;
 	private JTable table;
@@ -27,26 +29,28 @@ public class PurchaseControlJFrame extends JFrame implements ActionListener {
 	private JTextField tfCount;
 	private JTextField tfgoodsSum;
 	private JTextField tfmoneySum;
-	private JTextField tftime;
 	private Vector data;
 	private Vector colName;
 	private DefaultTableModel tm;
 	private JTextField tfTime;
+	private PurcharseControlServiceimpl ps=new PurcharseControlServiceimpl();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PurchaseControlJFrame frame = new PurchaseControlJFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PurchaseControlJFrame frame = new PurchaseControlJFrame();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+		PurchaseControlJFrame frame = new PurchaseControlJFrame();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -70,21 +74,7 @@ public class PurchaseControlJFrame extends JFrame implements ActionListener {
 		scrollPane.setBounds(6, 6, 846, 317);
 		panel.add(scrollPane);
 
-		PurchaseControlBD pcbd = new PurchaseControlBD();
-		Vector data = pcbd.getDBData();
-		colName = new Vector();
-		colName.add("商品名称");
-		colName.add("商品编号");
-		colName.add("单位");
-		colName.add("单价");
-		colName.add("数量");
-		colName.add("入库时间");
-		colName.add("保质期");
-		colName.add("操作员");
-		tm = new DefaultTableModel(data, colName);
-
-		table = new JTable(data, colName);
-		scrollPane.setViewportView(table);
+		
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(6, 6, 858, 211);
@@ -130,15 +120,13 @@ public class PurchaseControlJFrame extends JFrame implements ActionListener {
 		JLabel label_4 = new JLabel("入库时间");
 		label_4.setBounds(597, 17, 61, 16);
 		panel_1.add(label_4);
-		
+
 		tfTime = new JTextField();
 		tfTime.setBounds(684, 14, 168, 21);
 		panel_1.add(tfTime);
 		tfTime.setColumns(10);
 		MyThread mt = new MyThread(tfTime);
 		mt.start();
-		
-		
 
 		JLabel label_5 = new JLabel("合计金额");
 		label_5.setBounds(597, 54, 61, 16);
@@ -165,6 +153,24 @@ public class PurchaseControlJFrame extends JFrame implements ActionListener {
 		panel_1.add(Button_giveup);
 		
 		
+		
+	
+	
+//		int id=(Integer.valueOf(tfNum.getText()));
+//		 data=ps.getData(id);
+		colName = new Vector();
+		colName.add("商品名称");
+		colName.add("商品编号");
+		colName.add("单位");
+		colName.add("单价");
+		colName.add("数量");
+		colName.add("入库时间");
+		colName.add("保质期");
+		colName.add("操作员");
+		tm = new DefaultTableModel(data, colName);
+
+		table = new JTable(tm);
+		scrollPane.setViewportView(table);
 
 	}
 
@@ -172,27 +178,47 @@ public class PurchaseControlJFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// 获取按钮信息
 		String str = e.getActionCommand();
+		System.out.println(str);
 		if ("添加".equals(str)) {
+
 			String Num = tfNum.getText();
-			String operator = tfperson.getText();
-			String count = tfCount.getText();
-			String goodsSum = tfgoodsSum.getText();
-			String warhousingtime = tftime.getText();
-			String moneySum = tfmoneySum.getText();
-			PurchaseControlBD pcbd = new PurchaseControlBD();
-			pcbd.insertDBData(Num, operator, count, goodsSum, warhousingtime, moneySum);
-			tm.setDataVector(pcbd.getDBData(), colName);
 			
+			int id=(Integer.valueOf(Num));
+			Commodity comm=ps.getData(id);
+			String name=comm.getCommodityname();
+			int id1=comm.getCommodityid();
+			int count=comm.getCount();
+			
+			
+			String operator = tfperson.getText();
+			
+			String count1= tfCount.getText();
+			
+			String goodsSum = tfgoodsSum.getText();
+			
+			String warhousingtime = tfTime.getText();
+			
+			String moneySum = tfmoneySum.getText();
+			
+			
+
+			
+			tm.setDataVector(data, colName);
+
+			//这步有错
+//			pcbd.insertDBData(Num, operator, count, goodsSum, warhousingtime, moneySum);
+//			tm.setDataVector(pcbd.getDBData(), colName);
+
 			tfNum.setText(" ");
 			tfperson.setText("");
 			tfCount.setText("");
 			tfgoodsSum.setText("");
-			tftime.setText("");
+			tfTime.setText("");
 			tfmoneySum.setText("");
-		}else if("入库".equals(str)){
-			
-		}else if("".equals(str)) {
-			
+		} else if ("入库".equals(str)) {
+
+		} else if ("放弃入库".equals(str)) {
+
 		}
 
 	}

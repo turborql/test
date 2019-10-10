@@ -21,7 +21,6 @@ public void run() {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				String str=sdf.format(date);
 				tfTime.setText(str);
-
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
